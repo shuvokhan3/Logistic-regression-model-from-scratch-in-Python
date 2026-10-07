@@ -12,4 +12,9 @@ def pytest_configure(config):
     config.addinivalue_line("markers", "task1_3: Task 1.3 chain rule")
     config.addinivalue_line("markers", "task1_4: Task 1.4 backpropagation")
     config.addinivalue_line("markers", "task1_5: Task 1.5 training")
-    
+    # Module 2 markers
+    config.addinivalue_line("markers", "task2-1: Task 2.1 tensor indexing")
+    config.addinivalue_line("markers", "task2_2: Task 2.2 broadcasting")
+    config.addinivalue_line("markers", "task2_3: Task 2.3 tensor operations")
+    config.addinivalue_line("markers", "task2_4: Task 2.4 tensor autodiff")
+    config.addinivalue_line("markers", "task2_5: Task 2.5 tensor training")
