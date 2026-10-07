@@ -1,4 +1,4 @@
-# 🔥 MiniTorch — Automatic Differentiation from Scratch
+# MiniTorch — Automatic Differentiation from Scratch
 
 > *"Don't just use `loss.backward()` — understand what it does."*
 
@@ -41,7 +41,6 @@ print(b.derivative)   # ∂loss/∂b  ✓
 6. [Step-by-Step Reimplementation Guide](#-step-by-step-reimplementation-guide)
 7. [Getting Started](#-getting-started)
 8. [Running Tests](#-running-tests)
-9. [Data Visualization — Before & After Training](#-data-visualization--before--after-training)
 10. [Example Output](#-example-output)
 11. [Mathematical Reference](#-mathematical-reference)
 12. [What's Next (v2 Roadmap)](#-whats-next-v2-roadmap)
@@ -50,7 +49,7 @@ print(b.derivative)   # ∂loss/∂b  ✓
 
 ---
 
-## 💡 Why Build This?
+## Why Build This?
 
 Most ML engineers call `loss.backward()` hundreds of times a day but never look inside.
 Building MiniTorch answers the questions that interviews, debugging sessions, and research papers assume you already know:
@@ -67,7 +66,7 @@ Building MiniTorch answers the questions that interviews, debugging sessions, an
 
 ---
 
-## 🏗 Architecture Overview
+##  Architecture Overview
 
 ```
                  MiniTorch Autograd
@@ -109,7 +108,7 @@ training_example.py   ← Puts it all together
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 MiniTorch/
@@ -535,7 +534,7 @@ This is **identical to the PyTorch training loop** — the only difference is th
 
 ---
 
-## 🧠 How Automatic Differentiation Works
+##  How Automatic Differentiation Works
 
 ### The Big Picture
 
@@ -704,7 +703,7 @@ If accuracy reaches ~95%+ on the `simple` dataset, **your autograd engine works!
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -749,7 +748,7 @@ print(f"∂f/∂b = {b.derivative}")  # 2/4 = 0.50
 
 ---
 
-## ✅ Running Tests
+##  Running Tests
 
 Tests are organized by task/milestone:
 
@@ -781,7 +780,7 @@ The test suite includes both **unit tests** and **property-based tests** (via Hy
 
 ---
 
-## 📊 Example Output
+##  Example Output
 
 ```
 Initial parameters: w=0.4821, b=-0.3127
@@ -857,7 +856,7 @@ where `η` is the learning rate.
 
 ---
 
-## 🔮 What's Next (v2 Roadmap)
+##  What's Next (v2 Roadmap)
 
 This is **v1** — scalar-only autograd. Here's what future versions could add:
 
@@ -873,17 +872,17 @@ This is **v1** — scalar-only autograd. Here's what future versions could add:
 
 ---
 
-## 📚 Resources & Inspiration
+##  Resources & Inspiration
 
-- 🎓 [MiniTorch — Sasha Rush (Cornell)](https://minitorch.github.io/) — The original course that inspired this project
-- 📖 [Autodiff from scratch (Andrej Karpathy's micrograd)](https://github.com/karpathy/micrograd)
-- 📝 [Calculus on Computational Graphs (Chris Olah)](https://colah.github.io/posts/2015-08-Backprop/)
-- 🔥 [PyTorch Autograd Internals](https://pytorch.org/docs/stable/notes/autograd.html)
-- 📘 [Deep Learning (Goodfellow et al.) — Chapter 6.5: Back-Propagation](https://www.deeplearningbook.org/)
+-  [MiniTorch — Sasha Rush (Cornell)](https://minitorch.github.io/) — The original course that inspired this project
+-  [Autodiff from scratch (Andrej Karpathy's micrograd)](https://github.com/karpathy/micrograd)
+-  [Calculus on Computational Graphs (Chris Olah)](https://colah.github.io/posts/2015-08-Backprop/)
+-  [PyTorch Autograd Internals](https://pytorch.org/docs/stable/notes/autograd.html)
+-  [Deep Learning (Goodfellow et al.) — Chapter 6.5: Back-Propagation](https://www.deeplearningbook.org/)
 
 ---
 
-## 📄 License
+##  License
 
 This project is open source and available for educational purposes.
 
