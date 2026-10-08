@@ -3,7 +3,7 @@ Automatic differentiation utilities for MiniTorch.
 """
 
 from dataclasses import dataclass
-from typing import Callable, Optional, Sequence ,List, Set
+from typing import Callable, Optional, Sequence ,List, Set, Tuple, Any
 
 
 def central_difference(
@@ -214,6 +214,24 @@ def backpropagate(variable: Variable, deriv: float = 1.0) -> None:
                 input_var.accumulate_derivative(grad)
 
 
+@dataclass
+class Context:
+    """
+    Context class is used by `Function` to store information during the forward pass.
+    """
+
+    no_grad: bool = False
+    saved_values: Tuple[Any, ...] = ()
+
+    def save_for_backward(self, *values: Any) -> None:
+        "Store the given `values` if they need to be used during backpropagation."
+        if self.no_grad:
+            return
+        self.saved_values = values
+
+    @property
+    def saved_tensors(self) -> Tuple[Any, ...]:
+        return self.saved_values
 
 
 
