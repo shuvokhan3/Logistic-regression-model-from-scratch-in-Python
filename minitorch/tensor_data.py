@@ -304,3 +304,60 @@ class TensorData:
 
 
 
+def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
+    """Broadcast two shapes to create a new unnion shape"""
+    result = []
+    len1, len2 = len(shape1), len(shape2)
+    max_len = max(len1, len2)
+
+    for i in range(max_len):
+        d1 = shape1[len1 - 1 - i] if i < len1 else 1
+        d2 = shape2[len2 - 1 - i] if i < len2 else 1
+
+        if d1 == d2:
+            result.append(d1)
+        elif d1 == 1:
+            result.append(d2)
+        elif d2 == 1:
+            result.append(d1)
+        else:
+            raise IndexingError(
+                f"Cannot broadcast shapes {shape1} and {shape2}"
+            )
+    return tuple(reversed(result))
+
+
+
+def broadcast_index(
+        big_index:Index,
+        big_shape:Shape,
+        shape:Shape,
+        out_index:OutIndex
+)-> None:
+        """Convert index from broadcasted shape to original shape."""
+
+        offset = len(big_shape) - len(shape)
+
+        for i in range(len(shape)):
+            if shape[i] == 1:
+                out_index[i] = 0
+            else:
+                out_index[i] = big_index[i + offset]
+
+
+def strides_from_shape(shape: UserShape) -> UserStrides:
+    """Compute contiguous strides for a given shape.
+
+    Args:
+        shape: Tensor shape.
+        """
+    layout = [1]
+    offset = 1
+
+    for s in reversed(shape):
+        layout.append(s * offset)
+        offset = s * offset
+
+    return tuple(reversed(layout[:-1]))
+
+
