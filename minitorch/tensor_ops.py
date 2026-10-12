@@ -232,16 +232,44 @@ class SimpleOps(TensorOps):
 
         return ret
 
+    
     @staticmethod
     def matrix_multiply(
         a: "Tensor",
         b: "Tensor",
     ) -> "Tensor":
-        raise NotImplementedError(
-            "Not implemented in this assignment"
-        )
+        """Multiply two 2D tensors: (m, n) @ (n, p) -> (m, p)."""
 
-    cuda = False
+        if len(a.shape) != 2 or len(b.shape) != 2:
+            raise NotImplementedError(
+                "SimpleOps matrix_multiply currently supports 2D tensors only"
+            )
+
+        m, n = a.shape
+        n_b, p = b.shape
+
+        if n != n_b:
+            raise ValueError(
+                f"Incompatible shapes for matrix multiplication: "
+                f"{a.shape} and {b.shape}"
+            )
+
+        out = a.zeros((m, p))
+
+        for i in range(m):
+            for j in range(p):
+                total = 0.0
+
+                for k in range(n):
+                    total += (
+                        a._tensor.get((i, k))
+                        * b._tensor.get((k, j))
+                    )
+
+                out._tensor.set((i, j), total)
+
+        return out
+
 
 
 def tensor_map(fn: Callable[[float], float]):
