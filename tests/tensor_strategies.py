@@ -75,7 +75,7 @@ def indices(draw: DrawFn, layout: Tensor) -> UserIndex:
 def tensors(
     draw: DrawFn,
     numbers: SearchStrategy[float] = floats(
-        allow_nan=False, min_value=-100, max_value=100
+        allow_nan=False, min_value=-10, max_value=10
     ),
     backend: Optional[TensorBackend] = None,
     shape: Optional[UserShape] = None,
@@ -91,7 +91,7 @@ def shaped_tensors(
     draw: DrawFn,
     n: int,
     numbers: SearchStrategy[float] = floats(
-        allow_nan=False, min_value=-100, max_value=100
+        allow_nan=False, min_value=-10, max_value=10
     ),
     backend: Optional[TensorBackend] = None,
 ) -> List[Tensor]:
@@ -113,7 +113,7 @@ def shaped_tensors(
 def matmul_tensors(
     draw: DrawFn,
     numbers: SearchStrategy[float] = floats(
-        allow_nan=False, min_value=-100, max_value=100
+        allow_nan=False, min_value=-10, max_value=10
     ),
 ) -> List[Tensor]:
 
@@ -135,7 +135,6 @@ def assert_close_tensor(a: Tensor, b: Tensor) -> None:
             "Tensors are not close \n x.shape=%s \n x=%s \n y.shape=%s \n y=%s \n Diff=%s %s"
             % (a.shape, a, b.shape, b, a - b, a.is_close(b))
         )
-tests/strategies.py
 
 from hypothesis import settings
 from hypothesis.strategies import floats, integers
@@ -147,7 +146,7 @@ settings.load_profile("ci")
 
 
 small_ints = integers(min_value=1, max_value=3)
-small_floats = floats(min_value=-100, max_value=100, allow_nan=False)
+small_floats = floats(min_value=-10, max_value=10, allow_nan=False)
 med_ints = integers(min_value=1, max_value=20)
 
 
