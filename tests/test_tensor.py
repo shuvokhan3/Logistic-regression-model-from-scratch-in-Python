@@ -21,17 +21,27 @@ def test_create(t1: List[float]) -> None:
 
 
 
+
 @given(tensors())
 @pytest.mark.task2_3
 @pytest.mark.parametrize("fn", one_arg)
 def test_one_args(
-    fn: Tuple[str, Callable[[float], float], Callable[[Tensor], Tensor]], t1: Tensor
+    fn: Tuple[str, Callable[[float], float], Callable[[Tensor], Tensor]],
+    t1: Tensor,
 ) -> None:
-    "Test one-arg functions compared to floats"
+    """Test one-argument functions against scalar implementations."""
     name, base_fn, tensor_fn = fn
+
+    # Log is defined only for strictly positive inputs.
+    if name == "log":
+        for ind in t1._tensor.indices():
+            t1[ind] = abs(t1[ind]) + 0.1
+
     t2 = tensor_fn(t1)
+
     for ind in t2._tensor.indices():
         assert_close(t2[ind], base_fn(t1[ind]))
+
 
 
 
@@ -53,15 +63,31 @@ def test_two_args(
 
 
 
+
 @given(tensors())
 @pytest.mark.task2_4
 @pytest.mark.parametrize("fn", one_arg)
 def test_one_derivative(
-    fn: Tuple[str, Callable[[float], float], Callable[[Tensor], Tensor]], t1: Tensor
+    fn: Tuple[str, Callable[[float], float], Callable[[Tensor], Tensor]],
+    t1: Tensor,
 ) -> None:
-    "Test the gradient of a one-arg tensor function"
+    """Test the gradient of a one-arg tensor function."""
     name, _, tensor_fn = fn
+
+    # ReLU is not differentiable at zero. Avoid values so close
+    # to zero that the finite-difference perturbation crosses it.
+    if name == "relu":
+        for ind in t1._tensor.indices():
+            if abs(t1[ind]) < 1e-5:
+                t1[ind] = 1e-3
+
+    # Log requires strictly positive inputs.
+    if name == "log":
+        for ind in t1._tensor.indices():
+            t1[ind] = abs(t1[ind]) + 0.1
+
     grad_check(tensor_fn, t1)
+
 
 
 
