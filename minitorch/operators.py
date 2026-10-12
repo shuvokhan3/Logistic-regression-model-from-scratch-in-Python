@@ -67,8 +67,10 @@ def log_back(x: float, grad: float) -> float:
 def inv_back(x: float, grad:float) -> float:
     return -grad / (x * x)
 
-def relu_back(x : float, grad: float) -> float:
-    return grad if x > 0 else 0.0
+
+def relu_back(x: float, grad: float) -> float:
+    return grad if x > 0.0 else 0.0
+
 
 
 
