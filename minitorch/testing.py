@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, Iterable, List, Tuple
+from typing import Callable
 
 import numpy as np
 
@@ -17,29 +17,9 @@ class MathTestVariable:
 
     @staticmethod
     def _comp_testing():
-        """
-        Return the collections of operations used by the tests.
+        """Return the collections of mathematical operations."""
 
-        Returns:
-            one_arg:
-                Unary operations.
-
-            two_arg:
-                Binary operations.
-
-            red_arg:
-                Reduction operations.
-        """
-
-        # Import lazily to avoid circular imports while minitorch
-        # itself is being initialized.
         import minitorch
-
-        Tensor = minitorch.Tensor
-
-        # ----------------------------------------------------------
-        # One argument operations
-        # ----------------------------------------------------------
 
         one_arg = [
             (
@@ -69,10 +49,6 @@ class MathTestVariable:
             ),
         ]
 
-        # ----------------------------------------------------------
-        # Two argument operations
-        # ----------------------------------------------------------
-
         two_arg = [
             (
                 "add",
@@ -85,10 +61,6 @@ class MathTestVariable:
                 lambda x, y: x * y,
             ),
         ]
-
-        # ----------------------------------------------------------
-        # Reduction operations
-        # ----------------------------------------------------------
 
         red_arg = [
             (
@@ -106,10 +78,8 @@ def grad_check(
     *vals,
 ) -> None:
     """
-    Check Tensor gradients using the central-difference method.
-
-    This compares the gradient produced by automatic differentiation
-    against a numerical gradient.
+    Compare automatic differentiation with a numerical
+    central-difference approximation.
     """
 
     import minitorch
@@ -118,60 +88,66 @@ def grad_check(
         x.requires_grad_(True)
         x.zero_grad_()
 
-    # Forward pass.
-    random_out = f(*vals)
-
-    # Reduce the output to a scalar and backpropagate.
-    random_out.sum().backward()
+    # Forward pass and automatic differentiation.
+    output = f(*vals)
+    output.sum().backward()
 
     epsilon = 1e-6
 
     for arg, x in enumerate(vals):
-
-        # Pick one random element of the tensor.
         ind = x._tensor.sample()
 
-        # Create perturbation tensor.
+        # Perturb one element.
         up = minitorch.zeros(x.shape)
-
         up[ind] = epsilon
 
-        # f(x + epsilon)
-        vals1 = [
+        vals_plus = [
             v if i != arg else v + up
             for i, v in enumerate(vals)
         ]
 
-        # f(x - epsilon)
-        vals2 = [
+        vals_minus = [
             v if i != arg else v - up
             for i, v in enumerate(vals)
         ]
 
-        # Central difference:
-        #
-        # f(x + eps) - f(x - eps)
-        # -----------------------
-        #          2 eps
-        #
-        delta = (
-            f(*vals1).sum()
-            - f(*vals2).sum()
-        )
+        # Numerical central difference.
+        output_plus = f(*vals_plus).sum()
+        output_minus = f(*vals_minus).sum()
 
-        numerical = delta[0] / (2.0 * epsilon)
+        numerical = (
+            output_plus[0] - output_minus[0]
+        ) / (2.0 * epsilon)
 
         assert x.grad is not None
 
+        analytical = x.grad[ind]
+
+        # Diagnostic information if the gradients disagree.
+        if not np.isclose(
+            analytical,
+            numerical,
+            rtol=1e-2,
+            atol=1e-2,
+        ):
+            print(
+                f"\nGradient check diagnostic:"
+                f"\n  Function: {getattr(f, '__name__', f)}"
+                f"\n  Input value: {x[ind]:.17g}"
+                f"\n  Analytical gradient: {analytical}"
+                f"\n  Numerical gradient: {numerical}"
+                f"\n  Index: {ind}"
+            )
+
         np.testing.assert_allclose(
-            x.grad[ind],
+            analytical,
             numerical,
             rtol=1e-2,
             atol=1e-2,
             err_msg=(
                 f"Gradient check failed for argument {arg} "
                 f"at index {ind}. "
-                f"Received {x.grad[ind]}, "
+                f"Received derivative {analytical}, "
                 f"expected {numerical}."
             ),
         )
