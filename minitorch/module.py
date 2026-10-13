@@ -94,5 +94,10 @@ class Module: ## it represents a model/layer
         super().__setattr__(key, value)
 
 
+    def zero_grad_(self):
+        for parameter in self.parameters():
+            parameter.value.grad = None
+
+
 
 
