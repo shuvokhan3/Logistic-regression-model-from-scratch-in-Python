@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .fast_ops import FastOps
 
 from typing import TYPE_CHECKING, Callable, Optional, Type
 
@@ -478,3 +479,7 @@ def tensor_reduce(
 
 # Create the default CPU backend.
 SimpleBackend = TensorBackend(SimpleOps)
+
+# At bottom after SimpleBackend = TensorBackend(SimpleOps)
+FastBackend = TensorBackend(FastOps)
+
