@@ -18,3 +18,10 @@ def pytest_configure(config):
     config.addinivalue_line("markers", "task2_3: Task 2.3 tensor operations")
     config.addinivalue_line("markers", "task2_4: Task 2.4 tensor autodiff")
     config.addinivalue_line("markers", "task2_5: Task 2.5 tensor training")
+
+    #Module 3 markers
+    config.addinivalue_line("markers", "task3_1: Task 3.1 parallel operations")
+    config.addinivalue_line("markers", "task3_2: Task 3.2 matrix multiply")
+    config.addinivalue_line("markers", "task3_3: Task 3.3 CUDA operations")
+    config.addinivalue_line("markers", "task3_4: Task 3.4 CUDA matmul")
+    config.addinivalue_line("markers", "task3_5: Task 3.5 training benchmark")
