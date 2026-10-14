@@ -14,6 +14,7 @@ from .tensor_ops import SimpleBackend
 from .tensor_functions import tensor, rand, zeros
 from .tensor_ops import *
 from .fast_ops import *
+from .tensor_ops import * 
 
 # # a = Scalar(2.0, name="a")
 # # b = Scalar(3.0, name="b")
