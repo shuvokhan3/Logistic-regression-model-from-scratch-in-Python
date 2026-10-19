@@ -151,3 +151,16 @@ def grad_check(
                 f"expected {numerical}."
             ),
         )
+
+
+
+
+def sum_practice(a):
+    """Wrapper around CUDA sum_practice that returns the inner TensorData."""
+    from .cuda_ops import sum_practice as _cuda_sum_practice
+    return _cuda_sum_practice(a)._tensor
+
+
+def mm_practice(a, b):
+    """Wrapper around matrix_multiply that returns the inner TensorData."""
+    return a.f.matrix_multiply(a, b)._tensor
