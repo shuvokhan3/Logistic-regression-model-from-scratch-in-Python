@@ -2,6 +2,13 @@
 import minitorch
 from minitorch import tensor, Tensor
 
+from minitorch.fast_ops import FastOps
+from minitorch.cuda_ops import CudaOps
+
+cpu_backend = minitorch.TensorBackend(FastOps)
+gpu_backend = minitorch.TensorBackend(CudaOps)
+
+
 
 # --------------------------------------------------
 # Parameter initialization
