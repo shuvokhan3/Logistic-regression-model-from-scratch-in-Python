@@ -15,6 +15,9 @@ from .tensor_functions import tensor, rand, zeros
 from .tensor_ops import *
 from .fast_ops import *
 from .tensor_ops import * 
+from .testing import MathTestVariable, grad_check, sum_practice, mm_practice  # UPDATED
+from .cuda_ops import CudaOps                                                  # NEW
+
 
 # # a = Scalar(2.0, name="a")
 # # b = Scalar(3.0, name="b")
