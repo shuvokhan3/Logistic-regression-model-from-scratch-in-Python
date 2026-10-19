@@ -361,3 +361,22 @@ def strides_from_shape(shape: UserShape) -> UserStrides:
     return tuple(reversed(layout[:-1]))
 
 
+import numba
+from numba import njit
+
+### Before the functions add njit
+@njit(inline="always")
+def index_to_position(index: Index, strides: Strides) -> int:
+    """rest logic"""
+
+@njit(inline="always")
+def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
+    """rest logic"""
+
+@njit(inline="always")
+def broadcast_index(
+    big_index: Index, big_shape: Shape, shape: Shape, out_index: Index
+) -> None:
+    """rest logic"""
+
+
