@@ -176,6 +176,9 @@ def backpropagate(variable: Variable, deriv: Any = 1.0) -> None:
 
 
 
+
+###The purpose of this class is to save information during the forward pass so that an operation can calculate its gradients during the backward pass.
+
 @dataclass
 class Context:
     """
